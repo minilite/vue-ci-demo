@@ -23,7 +23,7 @@ jobs:
           paths:
             - node_modules
       - run:
-          name: build
+          name: Build
           command: yarn build
       # 如果出现权限问题，请加上权限设置任务，给脚本添加执行权限，然后再执行发布任务
       - run:
