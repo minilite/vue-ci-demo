@@ -33,11 +33,13 @@ jobs:
           fingerprints:
             - 'b8:25:10:01:dc:71:19:60:c4:05:25:32:68:4b:b8:c8'
       - run: echo $REMOTE_HOSTKEY >> ~/.ssh/known_hosts
+      - run: echo $SSH_IP
+      - run: echo $SSH_USER
       - deploy:
           name: deploy
           command: |
             if [ "${CIRCLE_BRANCH}" = "main" ]; then
-              ssh $SSH_USER@$SSH_IP:/data/vue-demo/
+              ssh $SSH_USER@$SSH_IP
             else
               echo "Not main branch, dry run only"
             fi
