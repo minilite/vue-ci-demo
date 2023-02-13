@@ -29,11 +29,23 @@ jobs:
           command: yarn build
       - run: echo "===================构建结束==================="
       - run: echo "===================部署开始==================="
+      - add_ssh_keys:
+          fingerprints:
+            - 'b8:25:10:01:dc:71:19:60:c4:05:25:32:68:4b:b8:c8'
+      - run: echo $REMOTE_HOSTKEY >> ~/.ssh/known_hosts
+      - deploy:
+          name: deploy
+          command: |
+            if [ "${CIRCLE_BRANCH}" = "main" ]; then
+              rsync -avce ssh build $SSH_USER@$SSH_IP:/data/vue-web/
+            else
+              echo "Not main branch, dry run only"
+            fi
       # 如果出现权限问题，请加上权限设置任务，给脚本添加执行权限，然后再执行发布任务
-      - run:
-          name: AuthSet
-          command: chmod +x circleci-deploy.sh
-      - run:
-          name: Deploy
-          command: sh circleci-deploy.sh
+      # - run:
+      #     name: AuthSet
+      #     command: chmod +x circleci-deploy.sh
+      # - run:
+      #     name: Deploy
+      #     command: sh circleci-deploy.sh
       - run: echo "===================部署结束==================="
