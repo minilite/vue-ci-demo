@@ -28,6 +28,7 @@ jobs:
           name: Build
           command: yarn build
       - run: echo "===================构建结束==================="
+
   deploy:
     steps:
       - run: echo "===================部署开始==================="
