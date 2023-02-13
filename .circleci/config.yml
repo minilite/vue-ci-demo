@@ -28,8 +28,6 @@ jobs:
           name: Build
           command: yarn build
       - run: echo "===================构建结束==================="
-  deploy-production:
-    steps:
       - run: echo "===================部署开始==================="
       # 如果出现权限问题，请加上权限设置任务，给脚本添加执行权限，然后再执行发布任务
       - run:
@@ -39,16 +37,3 @@ jobs:
           name: Deploy
           command: sh circleci-deploy.sh
       - run: echo "===================部署结束==================="
-
-workflows:
-  version: 2
-  build-and-deploy:
-    jobs:
-      - build-code
-      - deploy-production:
-          requires:
-            - build-code
-          filters:
-            branches:
-              only:
-                - main
