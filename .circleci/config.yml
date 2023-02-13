@@ -31,4 +31,4 @@ jobs:
           command: chmod +x circleci-deploy.sh
       - run:
           name: Deploy
-          command: ./circleci-deploy.sh
+          command: sh circleci-deploy.sh
