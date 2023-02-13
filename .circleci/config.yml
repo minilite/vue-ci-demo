@@ -1,5 +1,4 @@
 version: 2
-
 jobs:
   build-and-test:
     docker:
@@ -53,7 +52,7 @@ jobs:
           command: ssh $SSH_USER@$SSH_IP
 
 workflows:
-  versions: 2
+  version: 2
   build-and-test:
     jobs:
       - build-and-test
