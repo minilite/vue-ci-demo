@@ -37,7 +37,7 @@ jobs:
           name: deploy
           command: |
             if [ "${CIRCLE_BRANCH}" = "main" ]; then
-              ssh build $SSH_USER@$SSH_IP:/data/vue-demo/
+              ssh $SSH_USER@$SSH_IP:/data/vue-demo/
             else
               echo "Not main branch, dry run only"
             fi
