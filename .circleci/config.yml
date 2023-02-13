@@ -9,7 +9,7 @@ jobs:
     steps:
       - add_ssh_keys:
           fingerprints:
-            - 'e7:9c:16:08:4f:6e:ed:8a:d9:9b:2a:4c:e0:fb:e7:c7'
+            - '8b:2e:7c:f7:dc:fc:60:0e:b1:3b:c7:cd:e1:12:3e:e0'
       - checkout # 从github拉取代码
       # 使用缓存
       - restore_cache:
