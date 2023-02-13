@@ -37,7 +37,7 @@ jobs:
           name: deploy
           command: |
             if [ "${CIRCLE_BRANCH}" = "main" ]; then
-              rsync -vzrc --delete  --exclude ".git"  --exclude ".env"  --exclude ".circleci" $SSH_USER@$SSH_IP
+              ssh build $SSH_USER@$SSH_IP:/data/vue-demo/
             else
               echo "Not main branch, dry run only"
             fi
