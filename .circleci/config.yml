@@ -53,6 +53,7 @@ jobs:
           command: ssh $SSH_USER@$SSH_IP
 
 workflows:
+  versions: 2
   build-and-test:
     jobs:
       - build-and-test
