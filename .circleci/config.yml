@@ -1,12 +1,12 @@
 version: 2
+
 jobs:
-  build:
+  build-code:
     docker:
       - image: cimg/node:16.18.0
     branches:
       only:
         - main
-    working_directory: /app
     steps:
       - run: echo "===================构建开始==================="
       # - add_ssh_keys:
@@ -28,8 +28,7 @@ jobs:
           name: Build
           command: yarn build
       - run: echo "===================构建结束==================="
-
-  deploy:
+  deploy-production:
     steps:
       - run: echo "===================部署开始==================="
       # 如果出现权限问题，请加上权限设置任务，给脚本添加执行权限，然后再执行发布任务
@@ -45,10 +44,11 @@ workflows:
   version: 2
   build-and-deploy:
     jobs:
-      - build
-      - deploy:
+      - build-code
+      - deploy-production:
           requires:
-            - build
+            - build-code
           filters:
             branches:
-              only: main
+              only:
+                - main
