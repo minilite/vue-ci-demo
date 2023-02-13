@@ -3,9 +3,6 @@ jobs:
   build-and-test:
     docker:
       - image: cimg/node:16.18.0
-    branches:
-      only:
-        - main
     steps:
       - run: echo "===================构建开始==================="
       # - add_ssh_keys:
