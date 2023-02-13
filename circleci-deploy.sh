@@ -7,7 +7,7 @@ pwd
 # 查看当前目录下的文件信息
 ls -la
 # 定义远程仓库地址变量
-remote=$(https://github.com/minilite/vue-ci-demo.git)
+remote=$(git config remote.origin.url)
 echo 'remote address is: '$remote
 
 # 新建一个发布项目的目录
