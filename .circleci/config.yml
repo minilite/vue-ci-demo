@@ -9,9 +9,9 @@ jobs:
     steps:
       - run:
           name: Install
-          command: console.log('Install...')
+          command: echo "1"
       - run:
           name: Test
-          command: console.log('Testing...')
+          command: echo "2"
       - checkout # 从github拉取代码
       # 使用缓存
