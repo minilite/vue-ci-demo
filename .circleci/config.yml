@@ -40,7 +40,7 @@ jobs:
             - 'd0:90:a1:ba:04:47:95:c8:ed:c3:e1:70:77:7a:01:bf'
       - run:
           name: Adding known host
-          command: ssh-keyscan 8.8.8.8 >> ~/.ssh/known_hosts
+          command: echo $REMOTE_HOSTKEY >> ~/.ssh/known_hosts
       - run:
           name: Copy dist to ssh server
           command: ssh $SSH_USER@$SSH_IP 'cd /data/vue-demo/'
