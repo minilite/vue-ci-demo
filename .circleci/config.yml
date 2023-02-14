@@ -49,7 +49,7 @@ workflows:
   build-and-test:
     jobs:
       - build-and-test
-      - deploy-gh
+      - deploy-gh:
           requires:
             - build-and-test
       - deploy-prod:
