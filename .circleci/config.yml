@@ -34,7 +34,6 @@ jobs:
   deploy-prod:
     machine:
       enable: true
-    working_directory: ~/circleci-demo
     steps:
       - run: echo "===================远程服务器部署开始==================="
       - add_ssh_keys:
