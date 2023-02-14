@@ -3,6 +3,7 @@ jobs:
   build-and-test:
     docker:
       - image: cimg/node:16.18.0
+    working_directory: ~/circleci-demo
     steps:
       - run: echo "===================构建开始==================="
       - checkout # 从github拉取代码
@@ -33,6 +34,7 @@ jobs:
   deploy-prod:
     machine:
       enable: true
+    working_directory: ~/circleci-demo
     steps:
       - run: echo "===================远程服务器部署开始==================="
       - add_ssh_keys:
