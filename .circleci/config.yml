@@ -1,48 +1,19 @@
-version: 2
+version: 2.1
 jobs:
-  build:
-    docker:
-      - image: cimg/node:16.18.0
-    working_directory: ~/circleci-demo
-    steps:
-      - run: echo "===================构建开始==================="
-      - checkout # 从github拉取代码
-      # 使用缓存
-      - restore_cache:
-          key: node-dependence
-      - run:
-          name: Install
-          command: yarn install
-      # 设置缓存
-      - save_cache:
-          key: node-dependence
-          paths:
-            - node_modules
-      - run:
-          name: Build
-          command: ls -a && yarn build
-      - run: echo "===================构建结束==================="
-      - run: echo "===================Github Pages部署开始==================="
-      # 如果出现权限问题，请加上权限设置任务，给脚本添加执行权限，然后再执行发布任务
-      - run:
-          name: AuthSet
-          command: chmod +x gh-deploy.sh
-      - run:
-          name: Deploy
-          command: sh gh-deploy.sh
-      - run: echo "===================Github Pages部署结束==================="
-      - run: echo '部署开始'
-      - run: sudo apt-get update && sudo apt-get install rsync
-      - add_ssh_keys:
-          fingerprints:
-            - 'd0:90:a1:ba:04:47:95:c8:ed:c3:e1:70:77:7a:01:bf'
-      - run: echo $REMOTE_HOSTKEY >> ~/.ssh/known_hosts
+   deploy:
+      machine:
+        enabled: true
+      steps:
+        - run:
+            name: Deploy Over SSH
+            command: |
+            ssh $SSH_USER@$SSH_IP "echo 'hello'"
+
+workflows:
+    build-and-deploy:
+    jobs:
       - deploy:
-          name: deploy
-          command: |
-            if [ "${CIRCLE_BRANCH}" = "main" ]; then
-              rsync -avce ssh build $SSH_USER@$SSH_IP:~/data/vue-demo/
-            else
-              echo "Not main branch, dry run only"
-            fi
-      - run: echo '部署完毕'
+          requires:
+            filters:
+              branches:
+                only: main # only deploy on the main branch
