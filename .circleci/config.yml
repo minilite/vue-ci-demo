@@ -31,6 +31,8 @@ jobs:
           command: sh gh-deploy.sh
       - run: echo "===================Github Pages部署结束==================="
   deploy-prod:
+    machine:
+      enable: true
     steps:
       - run: echo "===================远程服务器部署开始==================="
       - add_ssh_keys:
