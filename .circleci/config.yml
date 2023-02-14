@@ -5,8 +5,9 @@ jobs:
       enabled: true
     steps:
       - run: echo $REMOTE_HOSTKEY >> ~/.ssh/known_hosts
-      - run: echo $SSH_USER
-      - run: echo $SSH_IP
+      - run: echo $SSH_USER >> ~/remote-server
+      - run: echo $SSH_IP >> ~/remote-server
+      - run: cat ~/remote-server
       - run:
           name: Deploy Over SSH
           command: |
