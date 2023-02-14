@@ -5,9 +5,6 @@ jobs:
       - image: cimg/node:16.18.0
     steps:
       - run: echo "===================构建开始==================="
-      # - add_ssh_keys:
-      #     fingerprints:
-      #       - '8b:2e:7c:f7:dc:fc:60:0e:b1:3b:c7:cd:e1:12:3e:e0'
       - checkout # 从github拉取代码
       # 使用缓存
       - restore_cache:
@@ -24,33 +21,37 @@ jobs:
           name: Build
           command: yarn build
       - run: echo "===================构建结束==================="
-      - run: echo "===================部署开始==================="
-      - run: echo $SSH_IP
-      - run: echo $SSH_USER
+  deploy-gh:
+    steps:
+      - run: echo "===================Github Pages部署开始==================="
       # 如果出现权限问题，请加上权限设置任务，给脚本添加执行权限，然后再执行发布任务
-      # - run:
-      #     name: AuthSet
-      #     command: chmod +x circleci-deploy.sh
-      # - run:
-      #     name: Deploy
-      #     command: sh circleci-deploy.sh
+      - run:
+          name: AuthSet
+          command: chmod +x gh-deploy.sh
+      - run:
+          name: Deploy
+          command: sh gh-deploy.sh
+      - run: echo "===================Github Pages部署结束==================="
   deploy-prod:
     machine:
       enable: true
-    working_directory: ~/vue-app
     steps:
+      - run: echo "===================远程服务器部署开始==================="
       - add_ssh_keys:
           fingerprints:
             - 'd0:90:a1:ba:04:47:95:c8:ed:c3:e1:70:77:7a:01:bf'
       - run:
           name: Update git And packages
-          command: ssh $SSH_USER@$SSH_IP
-
+          command: rsync ./${STATIC_SOURCE}/. -avce ssh $SSH_USER@$SSH_IP:/data/vue-demo/
+      - run: echo "===================远程服务器部署结束==================="
 workflows:
   version: 2
   build-and-test:
     jobs:
       - build-and-test
+      - deploy-gh
+          requires:
+            - build-and-test
       - deploy-prod:
           requires:
             - build-and-test
