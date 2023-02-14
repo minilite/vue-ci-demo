@@ -21,9 +21,7 @@ jobs:
           name: Build
           command: yarn build
       - run: echo "===================构建结束==================="
-  deploy-gh:
-    steps:
-      - run: echo "===================Github Pages部署开始==================="
+       - run: echo "===================Github Pages部署开始==================="
       # 如果出现权限问题，请加上权限设置任务，给脚本添加执行权限，然后再执行发布任务
       - run:
           name: AuthSet
@@ -42,16 +40,13 @@ jobs:
             - 'd0:90:a1:ba:04:47:95:c8:ed:c3:e1:70:77:7a:01:bf'
       - run:
           name: Update git And packages
-          command: rsync ./${STATIC_SOURCE}/. -avce ssh $SSH_USER@$SSH_IP:/data/vue-demo/
+          command: rsync ./$STATIC_SOURCE/. -avce ssh $SSH_USER@$SSH_IP:/data/vue-demo/
       - run: echo "===================远程服务器部署结束==================="
 workflows:
   version: 2
   build-and-test:
     jobs:
       - build-and-test
-      - deploy-gh:
-          requires:
-            - build-and-test
       - deploy-prod:
           requires:
             - build-and-test
