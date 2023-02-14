@@ -45,7 +45,8 @@ jobs:
           command: echo $REMOTE_HOSTKEY >> ~/.ssh/known_hosts
       - run:
           name: Copy dist to ssh server
-          command: touch vite.config.ts && ls -a && scp -r . $SSH_USER@$SSH_IP:~/data/vue-demo/
+          # command: touch vite.config.ts && ls -a && scp -r . $SSH_USER@$SSH_IP:~/data/vue-demo/
+          command: git remote -v
       - run: echo "===================远程服务器部署结束==================="
 workflows:
   version: 2
