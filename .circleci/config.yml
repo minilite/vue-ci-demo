@@ -31,29 +31,16 @@ jobs:
           name: Deploy
           command: sh gh-deploy.sh
       - run: echo "===================Github Pages部署结束==================="
-  deploy-prod:
-    machine:
-      enable: true
-    steps:
-      - run: echo "===================远程服务器部署开始==================="
       - add_ssh_keys:
           fingerprints:
             - 'd0:90:a1:ba:04:47:95:c8:ed:c3:e1:70:77:7a:01:bf'
-      - run:
-          name: Adding known host
-          command: echo $REMOTE_HOSTKEY >> ~/.ssh/known_hosts
-      - run:
-          name: Copy dist to ssh server
-          command: ssh ubuntu@42.193.19.89 'echo "hello" >> ~/data/vue-demo/README.md'
-      - run: echo "===================远程服务器部署结束==================="
-workflows:
-  version: 2
-  build-and-test:
-    jobs:
-      - build-and-test
-      - deploy-prod:
-          requires:
-            - build-and-test
-          filters:
-            branches:
-              only: main
+      - run: echo $REMOTE_HOSTKEY >> ~/.ssh/known_hosts
+      - deploy:
+          name: deploy
+          command: |
+            if [ "${CIRCLE_BRANCH}" = "main" ]; then
+              rsync -avce ssh build $SSH_USER@$SSH_IP:~/data/vue-demo/
+            else
+              echo "Not master branch, dry run only"
+            fi
+      - run: echo '部署完毕'
