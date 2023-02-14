@@ -1,6 +1,6 @@
 version: 2
 jobs:
-  build-and-test:
+  build:
     docker:
       - image: cimg/node:16.18.0
     working_directory: ~/circleci-demo
