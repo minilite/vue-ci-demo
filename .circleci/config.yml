@@ -31,6 +31,8 @@ jobs:
           name: Deploy
           command: sh gh-deploy.sh
       - run: echo "===================Github Pages部署结束==================="
+      - run: echo '部署开始'
+      - run: sudo apt-get update && sudo apt-get install rsync
       - add_ssh_keys:
           fingerprints:
             - 'd0:90:a1:ba:04:47:95:c8:ed:c3:e1:70:77:7a:01:bf'
@@ -41,6 +43,6 @@ jobs:
             if [ "${CIRCLE_BRANCH}" = "main" ]; then
               rsync -avce ssh build $SSH_USER@$SSH_IP:~/data/vue-demo/
             else
-              echo "Not master branch, dry run only"
+              echo "Not main branch, dry run only"
             fi
       - run: echo '部署完毕'
